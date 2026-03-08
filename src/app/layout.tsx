@@ -3,6 +3,7 @@ import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { TrackPageView } from "@/components/TrackPageView";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -30,6 +31,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${dmSans.className} antialiased bg-white text-black`}>
         <Navbar />
+        <TrackPageView />
         <main className="min-h-screen pb-16 md:pb-0">{children}</main>
         <Footer />
       </body>

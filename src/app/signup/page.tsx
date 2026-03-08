@@ -33,6 +33,12 @@ export default function SignUpPage() {
       return;
     }
 
+    fetch("/api/analytics/track", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ event_type: "signup", page_path: "/signup" }),
+    }).catch(() => {});
+
     router.push("/dashboard");
     router.refresh();
   }

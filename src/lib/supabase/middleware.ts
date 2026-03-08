@@ -26,7 +26,24 @@ export async function updateSession(request: NextRequest) {
   );
 
   // Refresh the session — important for Server Components
-  await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  // Ban check: redirect banned users to /banned (except on /banned itself and static assets)
+  if (user && !request.nextUrl.pathname.startsWith("/banned")) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("is_banned")
+      .eq("id", user.id)
+      .single();
+
+    if (profile?.is_banned) {
+      // Sign the user out
+      await supabase.auth.signOut();
+      const url = request.nextUrl.clone();
+      url.pathname = "/banned";
+      return NextResponse.redirect(url);
+    }
+  }
 
   return supabaseResponse;
 }

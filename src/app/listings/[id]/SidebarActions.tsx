@@ -52,6 +52,12 @@ export function SidebarActions({
   const [userListingsLoading, setUserListingsLoading] = useState(false);
   const [selectedTradeListingId, setSelectedTradeListingId] = useState<string | null>(null);
   const [igCopied, setIgCopied] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [reportReason, setReportReason] = useState("");
+  const [reportDetails, setReportDetails] = useState("");
+  const [reportLoading, setReportLoading] = useState(false);
+  const [reportSuccess, setReportSuccess] = useState(false);
+  const [reportError, setReportError] = useState("");
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -157,6 +163,11 @@ export function SidebarActions({
       setOfferError(error.message);
     } else {
       setOfferSuccess(true);
+      fetch("/api/analytics/track", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ event_type: "offer_sent", listing_id: listingId, metadata: { type: "cash", amount } }),
+      }).catch(() => {});
       setTimeout(() => closeModal(setShowOfferModal), 1500);
     }
   }
@@ -185,7 +196,49 @@ export function SidebarActions({
       setTradeError(error.message);
     } else {
       setTradeSuccess(true);
+      fetch("/api/analytics/track", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ event_type: "offer_sent", listing_id: listingId, metadata: { type: "trade" } }),
+      }).catch(() => {});
       setTimeout(() => closeModal(setShowTradeModal), 1500);
+    }
+  }
+
+  function openReportModal() {
+    if (!currentUserId) {
+      router.push(`/login?returnTo=${encodeURIComponent(window.location.pathname)}`);
+      return;
+    }
+    setReportReason("");
+    setReportDetails("");
+    setReportError("");
+    setReportSuccess(false);
+    openModal(setShowReportModal);
+  }
+
+  async function submitReport(e: React.FormEvent) {
+    e.preventDefault();
+    if (!reportReason) {
+      setReportError("Please select a reason.");
+      return;
+    }
+    setReportLoading(true);
+    setReportError("");
+
+    const { error } = await supabase.from("reports").insert({
+      listing_id: listingId,
+      reporter_id: currentUserId,
+      reason: reportReason,
+      details: reportDetails.trim() || null,
+    });
+
+    setReportLoading(false);
+    if (error) {
+      setReportError(error.message);
+    } else {
+      setReportSuccess(true);
+      setTimeout(() => closeModal(setShowReportModal), 1500);
     }
   }
 
@@ -304,6 +357,16 @@ export function SidebarActions({
             </button>
           </div>
         </div>
+
+        {/* Report */}
+        {!isSeller && (
+          <button
+            onClick={openReportModal}
+            className="w-full text-xs text-gray-400 hover:text-red-500 transition-colors py-2"
+          >
+            Report this listing
+          </button>
+        )}
       </div>
       {renderModals()}
     </>
@@ -348,6 +411,68 @@ export function SidebarActions({
                   {offerError && <p className="text-sm text-red-600 mb-3">{offerError}</p>}
                   <button type="submit" disabled={offerLoading} className="w-full rounded-lg bg-hw-yellow px-4 py-3.5 text-sm font-semibold text-black hover:bg-hw-yellow-hover transition-colors disabled:opacity-50 min-h-[44px]">
                     {offerLoading ? "Sending..." : "Send Offer"}
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        )}
+
+        {showReportModal && (
+          <div
+            className="fixed inset-0 z-[70] flex items-end md:items-center justify-center bg-black/50 animate-fade-in"
+            onClick={() => closeModal(setShowReportModal)}
+          >
+            <div
+              className="bg-white w-full md:rounded-2xl md:max-w-md md:mx-4 rounded-t-2xl p-6 max-h-[85vh] overflow-y-auto animate-slide-up md:animate-none safe-area-bottom"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {reportSuccess ? (
+                <div className="text-center py-6">
+                  <div className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-7 h-7 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <p className="text-lg font-semibold">Report submitted</p>
+                  <p className="text-sm text-gray-500 mt-1">We&apos;ll review this listing shortly.</p>
+                </div>
+              ) : (
+                <form onSubmit={submitReport}>
+                  <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-lg font-bold">Report Listing</h3>
+                    <button type="button" onClick={() => closeModal(setShowReportModal)} className="text-gray-400 hover:text-gray-600 min-h-[44px] min-w-[44px] flex items-center justify-center">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                  <label className="block text-sm font-medium mb-1.5">Reason</label>
+                  <select
+                    value={reportReason}
+                    onChange={(e) => setReportReason(e.target.value)}
+                    className="w-full rounded-lg border border-gray-200 px-4 py-3.5 text-base mb-4 focus:outline-none focus:ring-2 focus:ring-hw-blue/30 focus:border-hw-blue min-h-[44px]"
+                    required
+                  >
+                    <option value="">Select a reason</option>
+                    <option value="Fake or misleading">Fake or misleading</option>
+                    <option value="Inappropriate content">Inappropriate content</option>
+                    <option value="Suspected scam">Suspected scam</option>
+                    <option value="Counterfeit item">Counterfeit item</option>
+                    <option value="Duplicate listing">Duplicate listing</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <label className="block text-sm font-medium mb-1.5">Additional details (optional)</label>
+                  <textarea
+                    value={reportDetails}
+                    onChange={(e) => setReportDetails(e.target.value)}
+                    placeholder="Provide more context..."
+                    rows={3}
+                    className="w-full rounded-lg border border-gray-200 px-4 py-3.5 text-base resize-none mb-4 focus:outline-none focus:ring-2 focus:ring-hw-blue/30 focus:border-hw-blue"
+                  />
+                  {reportError && <p className="text-sm text-red-600 mb-3">{reportError}</p>}
+                  <button type="submit" disabled={reportLoading} className="w-full rounded-lg bg-red-600 px-4 py-3.5 text-sm font-semibold text-white hover:bg-red-700 transition-colors disabled:opacity-50 min-h-[44px]">
+                    {reportLoading ? "Submitting..." : "Submit Report"}
                   </button>
                 </form>
               )}

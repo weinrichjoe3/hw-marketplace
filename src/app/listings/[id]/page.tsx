@@ -6,6 +6,7 @@ import { ImageGallery } from "./ImageGallery";
 import { CommentSection } from "./CommentSection";
 import { SidebarActions } from "./SidebarActions";
 import { MobileShare } from "./MobileShare";
+import { ReportButton } from "./ReportButton";
 
 interface ListingDetail {
   id: string;
@@ -185,6 +186,11 @@ export default async function ListingPage({
 
             {/* Mobile Share */}
             <MobileShare title={l.title} price={l.price} />
+
+            {/* Mobile Report */}
+            <div className="lg:hidden mt-2 mb-4">
+              <ReportButton listingId={l.id} />
+            </div>
 
             <hr className="border-gray-100 mb-6 md:mb-8" />
 
