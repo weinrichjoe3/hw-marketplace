@@ -65,7 +65,7 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-dark-bg via-dark-bg to-hw-red/20 text-white">
+      <section className="bg-hw-blue text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center">
           <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
             The Ultimate{" "}
