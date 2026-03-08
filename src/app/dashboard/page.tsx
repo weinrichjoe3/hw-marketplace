@@ -17,18 +17,22 @@ export default function DashboardPage() {
 
   useEffect(() => {
     async function load() {
-      const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data } = await supabase
-          .from("profiles")
-          .select("is_seller, display_name")
-          .eq("id", user.id)
-          .single();
-        if (data) {
-          setIsSeller(data.is_seller ?? false);
-          setDisplayName(data.display_name ?? "");
+      try {
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          const { data } = await supabase
+            .from("profiles")
+            .select("is_seller, display_name")
+            .eq("id", user.id)
+            .single();
+          if (data) {
+            setIsSeller(data.is_seller ?? false);
+            setDisplayName(data.display_name ?? "");
+          }
         }
+      } catch {
+        // Profile table may not exist yet — defaults are fine
       }
     }
     load();

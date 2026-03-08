@@ -27,27 +27,41 @@ function BillingContent() {
 
   useEffect(() => {
     async function loadProfile() {
-      const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data } = await supabase
-          .from("profiles")
-          .select("is_seller")
-          .eq("id", user.id)
-          .single();
-        setIsSeller(data?.is_seller ?? false);
+      try {
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          const { data } = await supabase
+            .from("profiles")
+            .select("is_seller")
+            .eq("id", user.id)
+            .single();
+          setIsSeller(data?.is_seller ?? false);
+        }
+      } catch {
+        // Profile table may not exist yet or user has no row — default to free
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
     loadProfile();
   }, []);
 
+  const [error, setError] = useState("");
+
   async function handleSubscribe() {
     setActionLoading(true);
-    const res = await fetch("/api/checkout", { method: "POST" });
-    const data = await res.json();
-    if (data.url) {
-      window.location.href = data.url;
+    setError("");
+    try {
+      const res = await fetch("/api/checkout", { method: "POST" });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+        return;
+      }
+      setError(data.error || "Failed to create checkout session");
+    } catch {
+      setError("Network error. Please try again.");
     }
     setActionLoading(false);
   }
@@ -84,6 +98,12 @@ function BillingContent() {
       {canceled && (
         <div className="mb-6 rounded-lg bg-yellow-50 border border-yellow-200 px-4 py-3 text-sm text-yellow-700">
           Checkout was canceled. You can try again anytime.
+        </div>
+      )}
+
+      {error && (
+        <div className="mb-6 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-600">
+          {error}
         </div>
       )}
 
