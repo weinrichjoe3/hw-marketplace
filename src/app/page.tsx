@@ -1,13 +1,6 @@
 import Link from "next/link";
-
-const LISTINGS = [
-  { id: 1, name: "'71 Datsun 510", series: "Car Culture", condition: "Mint", price: 24 },
-  { id: 2, name: "Porsche 911 GT3 RS", series: "Premium", condition: "Near Mint", price: 18 },
-  { id: 3, name: "Toyota AE86 Sprinter", series: "Japan Historics", condition: "Mint", price: 32 },
-  { id: 4, name: "'55 Chevy Bel Air Gasser", series: "Legends Tour", condition: "Excellent", price: 15 },
-  { id: 5, name: "Nissan Skyline GT-R R34", series: "Boulevard", condition: "Mint", price: 28 },
-  { id: 6, name: "McLaren F1 GTR", series: "Car Culture", condition: "Near Mint", price: 22 },
-];
+import { createClient } from "@/lib/supabase/server";
+import { ListingCard, type Listing } from "@/components/ListingCard";
 
 const STATS = [
   { label: "Active Listings", value: "12,400+" },
@@ -34,7 +27,21 @@ const STEPS = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  let featured: Listing[] = [];
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from("listings")
+      .select("id, title, series, year, condition, price, images, created_at")
+      .eq("status", "active")
+      .order("created_at", { ascending: false })
+      .limit(6);
+    featured = (data as Listing[]) ?? [];
+  } catch {
+    // listings table may not exist yet
+  }
+
   return (
     <>
       {/* Hero */}
@@ -86,41 +93,17 @@ export default function HomePage() {
               View All &rarr;
             </Link>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {LISTINGS.map((car) => (
-              <div
-                key={car.id}
-                className="group rounded-xl border border-card-border overflow-hidden hover:shadow-lg transition-shadow"
-              >
-                <div className="aspect-[4/3] bg-gray-100 relative">
-                  <div className="absolute inset-0 flex items-center justify-center text-gray-300">
-                    <svg className="w-16 h-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
-                    </svg>
-                  </div>
-                  <div className="absolute top-3 left-3 flex gap-2">
-                    <span className="rounded-full bg-royal-blue/90 px-3 py-0.5 text-xs font-medium text-white">
-                      {car.series}
-                    </span>
-                  </div>
-                  <div className="absolute top-3 right-3">
-                    <span className="rounded-full bg-white/90 px-3 py-0.5 text-xs font-medium text-gray-700">
-                      {car.condition}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-4">
-                  <h3 className="font-semibold text-base group-hover:text-royal-blue transition-colors">
-                    {car.name}
-                  </h3>
-                  <div className="flex items-center justify-between mt-2">
-                    <p className="text-lg font-bold">${car.price}</p>
-                    <span className="text-xs text-gray-400">Listed 2h ago</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          {featured.length > 0 ? (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {featured.map((listing) => (
+                <ListingCard key={listing.id} listing={listing} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16 text-gray-400">
+              <p>No listings yet. Be the first to sell!</p>
+            </div>
+          )}
         </div>
       </section>
 
