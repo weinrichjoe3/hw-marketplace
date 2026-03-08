@@ -1,60 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
-import type { User } from "@supabase/supabase-js";
+import { useState } from "react";
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
-  const [pendingCount, setPendingCount] = useState(0);
-  const router = useRouter();
-  const supabase = createClient();
-
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setUser(data.user));
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, [supabase.auth]);
-
-  // Fetch pending offers count
-  useEffect(() => {
-    if (!user) {
-      setPendingCount(0);
-      return;
-    }
-
-    async function fetchPending() {
-      try {
-        const { count } = await supabase
-          .from("offers")
-          .select("id", { count: "exact", head: true })
-          .eq("receiver_id", user!.id)
-          .eq("status", "pending");
-        setPendingCount(count ?? 0);
-      } catch {
-        // table may not exist yet
-      }
-    }
-
-    fetchPending();
-    // Poll every 30 seconds
-    const interval = setInterval(fetchPending, 30000);
-    return () => clearInterval(interval);
-  }, [user, supabase]);
-
-  async function handleLogout() {
-    await supabase.auth.signOut();
-    setUser(null);
-    router.push("/");
-    router.refresh();
-  }
 
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
@@ -77,52 +27,18 @@ export function Navbar() {
             >
               How It Works
             </Link>
-
-            {user ? (
-              <>
-                <Link
-                  href="/dashboard"
-                  className="text-sm font-medium text-gray-600 hover:text-black transition-colors"
-                >
-                  Dashboard
-                </Link>
-                <Link
-                  href="/dashboard/inbox"
-                  className="relative text-sm font-medium text-gray-600 hover:text-black transition-colors"
-                >
-                  Inbox
-                  {pendingCount > 0 && (
-                    <span className="absolute -top-2 -right-4 inline-flex items-center justify-center h-5 min-w-5 px-1 rounded-full bg-red-500 text-xs font-bold text-white">
-                      {pendingCount > 9 ? "9+" : pendingCount}
-                    </span>
-                  )}
-                </Link>
-                <span className="text-sm text-gray-400 max-w-[160px] truncate">
-                  {user.email}
-                </span>
-                <button
-                  onClick={handleLogout}
-                  className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
-                >
-                  Log Out
-                </button>
-              </>
-            ) : (
-              <>
-                <Link
-                  href="/login"
-                  className="text-sm font-medium text-gray-600 hover:text-black transition-colors"
-                >
-                  Log In
-                </Link>
-                <Link
-                  href="/signup"
-                  className="rounded-lg bg-royal-blue px-5 py-2 text-sm font-semibold text-white hover:bg-royal-blue/90 transition-colors"
-                >
-                  Sign Up
-                </Link>
-              </>
-            )}
+            <Link
+              href="/login"
+              className="text-sm font-medium text-gray-600 hover:text-black transition-colors"
+            >
+              Log In
+            </Link>
+            <Link
+              href="/signup"
+              className="rounded-lg bg-royal-blue px-5 py-2 text-sm font-semibold text-white hover:bg-royal-blue/90 transition-colors"
+            >
+              Sign Up
+            </Link>
           </div>
 
           <button
@@ -145,28 +61,8 @@ export function Navbar() {
         <div className="md:hidden border-t border-gray-100 bg-white px-4 pb-4 pt-2 space-y-2">
           <Link href="/listings" className="block py-2 text-sm font-medium text-gray-600">Browse</Link>
           <Link href="/how-it-works" className="block py-2 text-sm font-medium text-gray-600">How It Works</Link>
-          {user ? (
-            <>
-              <Link href="/dashboard" className="block py-2 text-sm font-medium text-gray-600">Dashboard</Link>
-              <Link href="/dashboard/inbox" className="flex items-center gap-2 py-2 text-sm font-medium text-gray-600">
-                Inbox
-                {pendingCount > 0 && (
-                  <span className="inline-flex items-center justify-center h-5 min-w-5 px-1 rounded-full bg-red-500 text-xs font-bold text-white">
-                    {pendingCount > 9 ? "9+" : pendingCount}
-                  </span>
-                )}
-              </Link>
-              <p className="py-2 text-sm text-gray-400 truncate">{user.email}</p>
-              <button onClick={handleLogout} className="block w-full text-left py-2 text-sm font-medium text-red-500">
-                Log Out
-              </button>
-            </>
-          ) : (
-            <>
-              <Link href="/login" className="block py-2 text-sm font-medium text-gray-600">Log In</Link>
-              <Link href="/signup" className="block py-2 text-sm font-semibold text-royal-blue">Sign Up</Link>
-            </>
-          )}
+          <Link href="/login" className="block py-2 text-sm font-medium text-gray-600">Log In</Link>
+          <Link href="/signup" className="block py-2 text-sm font-semibold text-royal-blue">Sign Up</Link>
         </div>
       )}
     </nav>

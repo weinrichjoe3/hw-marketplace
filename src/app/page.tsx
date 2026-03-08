@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
-import { ListingCard, type Listing } from "@/components/ListingCard";
 
 const STATS = [
   { label: "Active Listings", value: "12,400+" },
@@ -27,21 +25,16 @@ const STEPS = [
   },
 ];
 
-export default async function HomePage() {
-  let featured: Listing[] = [];
-  try {
-    const supabase = await createClient();
-    const { data } = await supabase
-      .from("listings")
-      .select("id, title, series, year, condition, price, images, created_at")
-      .eq("status", "active")
-      .order("created_at", { ascending: false })
-      .limit(6);
-    featured = (data as Listing[]) ?? [];
-  } catch {
-    // listings table may not exist yet
-  }
+const FEATURED = [
+  { id: "1", title: "'71 Datsun 510 — Super Treasure Hunt", series: "Super Treasure Hunt", condition: "Mint / Carded", price: 185, color: "bg-red-100" },
+  { id: "2", title: "'55 Chevy Bel Air Gasser — RLC", series: "Red Line Club", condition: "Near Mint", price: 320, color: "bg-blue-100" },
+  { id: "3", title: "Porsche 911 GT3 RS — Car Culture", series: "Car Culture", condition: "Mint / Loose", price: 42, color: "bg-yellow-100" },
+  { id: "4", title: "Custom '62 Chevy Pickup — Convention", series: "Convention", condition: "Mint / Carded", price: 275, color: "bg-green-100" },
+  { id: "5", title: "Nissan Skyline GT-R (R34) — Boulevard", series: "Boulevard", condition: "Excellent", price: 58, color: "bg-purple-100" },
+  { id: "6", title: "Mercedes-Benz 300 SL — Team Transport", series: "Team Transport", condition: "Mint / Carded", price: 95, color: "bg-orange-100" },
+];
 
+export default function HomePage() {
   return (
     <>
       {/* Hero */}
@@ -93,17 +86,39 @@ export default async function HomePage() {
               View All &rarr;
             </Link>
           </div>
-          {featured.length > 0 ? (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {featured.map((listing) => (
-                <ListingCard key={listing.id} listing={listing} />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-16 text-gray-400">
-              <p>No listings yet. Be the first to sell!</p>
-            </div>
-          )}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {FEATURED.map((listing) => (
+              <div
+                key={listing.id}
+                className="group rounded-xl border border-card-border overflow-hidden hover:shadow-lg transition-shadow"
+              >
+                <div className={`aspect-[4/3] ${listing.color} relative overflow-hidden flex items-center justify-center`}>
+                  <svg className="w-16 h-16 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
+                  </svg>
+                  <div className="absolute top-3 left-3">
+                    <span className="rounded-full bg-royal-blue/90 px-3 py-0.5 text-xs font-medium text-white">
+                      {listing.series}
+                    </span>
+                  </div>
+                  <div className="absolute top-3 right-3">
+                    <span className="rounded-full bg-white/90 px-3 py-0.5 text-xs font-medium text-gray-700">
+                      {listing.condition}
+                    </span>
+                  </div>
+                </div>
+                <div className="p-4">
+                  <h3 className="font-semibold text-base group-hover:text-royal-blue transition-colors line-clamp-1">
+                    {listing.title}
+                  </h3>
+                  <div className="flex items-center justify-between mt-2">
+                    <p className="text-lg font-bold">${listing.price}</p>
+                    <span className="text-xs text-gray-400">2d ago</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
