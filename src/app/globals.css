@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@theme {
+  --color-sky-blue: #87CEEB;
+  --color-royal-blue: #1a3a8a;
+  --color-cta-yellow: #FACC15;
+  --color-cta-yellow-hover: #EAB308;
+  --color-dark-bg: #111111;
+  --color-card-border: #e5e7eb;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+}
