@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getStripe } from "@/lib/stripe";
+import Stripe from "stripe";
 import { createClient } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
@@ -11,7 +11,22 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const stripe = getStripe();
+    const key = process.env.STRIPE_SECRET_KEY;
+    const priceId = process.env.STRIPE_PRICE_ID;
+
+    if (!key) {
+      return NextResponse.json({
+        error: "Server config error: STRIPE_SECRET_KEY missing",
+      }, { status: 500 });
+    }
+
+    if (!priceId) {
+      return NextResponse.json({
+        error: "Server config error: STRIPE_PRICE_ID missing",
+      }, { status: 500 });
+    }
+
+    const stripe = new Stripe(key);
     const { origin } = new URL(request.url);
 
     const session = await stripe.checkout.sessions.create({
@@ -19,7 +34,7 @@ export async function POST(request: Request) {
       payment_method_types: ["card"],
       line_items: [
         {
-          price: process.env.STRIPE_PRICE_ID!,
+          price: priceId,
           quantity: 1,
         },
       ],
@@ -34,6 +49,14 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ url: session.url });
   } catch (err) {
+    // Return detailed error info for debugging
+    if (err instanceof Stripe.errors.StripeError) {
+      return NextResponse.json({
+        error: err.message,
+        type: err.type,
+        code: err.code,
+      }, { status: 500 });
+    }
     const message = err instanceof Error ? err.message : "Internal server error";
     return NextResponse.json({ error: message }, { status: 500 });
   }
