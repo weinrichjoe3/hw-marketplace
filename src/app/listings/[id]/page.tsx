@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { ImageGallery } from "./ImageGallery";
@@ -101,15 +102,15 @@ export default async function ListingPage({
             </div>
 
             {/* Seller info bar */}
-            <div className="flex items-center gap-3 mb-6">
+            <Link href={`/sellers/${l.seller_id}`} className="flex items-center gap-3 mb-6 group">
               <div className="w-10 h-10 rounded-full bg-royal-blue/10 flex items-center justify-center text-royal-blue font-bold text-sm">
                 {sellerName.charAt(0).toUpperCase()}
               </div>
               <div>
-                <p className="text-sm font-semibold">{sellerName}</p>
+                <p className="text-sm font-semibold group-hover:text-royal-blue transition-colors">{sellerName}</p>
                 <p className="text-xs text-gray-500">Member since {memberSince}</p>
               </div>
-            </div>
+            </Link>
 
             <hr className="border-gray-100 mb-8" />
 
@@ -150,6 +151,7 @@ export default async function ListingPage({
               sellerName={sellerName}
               memberSince={memberSince}
               listingId={l.id}
+              sellerId={l.seller_id}
             />
           </div>
         </div>
