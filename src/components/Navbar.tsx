@@ -9,6 +9,7 @@ import type { User } from "@supabase/supabase-js";
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [pendingCount, setPendingCount] = useState(0);
   const router = useRouter();
   const supabase = createClient();
 
@@ -21,6 +22,32 @@ export function Navbar() {
 
     return () => subscription.unsubscribe();
   }, [supabase.auth]);
+
+  // Fetch pending offers count
+  useEffect(() => {
+    if (!user) {
+      setPendingCount(0);
+      return;
+    }
+
+    async function fetchPending() {
+      try {
+        const { count } = await supabase
+          .from("offers")
+          .select("id", { count: "exact", head: true })
+          .eq("receiver_id", user!.id)
+          .eq("status", "pending");
+        setPendingCount(count ?? 0);
+      } catch {
+        // table may not exist yet
+      }
+    }
+
+    fetchPending();
+    // Poll every 30 seconds
+    const interval = setInterval(fetchPending, 30000);
+    return () => clearInterval(interval);
+  }, [user, supabase]);
 
   async function handleLogout() {
     await supabase.auth.signOut();
@@ -58,6 +85,17 @@ export function Navbar() {
                   className="text-sm font-medium text-gray-600 hover:text-black transition-colors"
                 >
                   Dashboard
+                </Link>
+                <Link
+                  href="/dashboard/inbox"
+                  className="relative text-sm font-medium text-gray-600 hover:text-black transition-colors"
+                >
+                  Inbox
+                  {pendingCount > 0 && (
+                    <span className="absolute -top-2 -right-4 inline-flex items-center justify-center h-5 min-w-5 px-1 rounded-full bg-red-500 text-xs font-bold text-white">
+                      {pendingCount > 9 ? "9+" : pendingCount}
+                    </span>
+                  )}
                 </Link>
                 <span className="text-sm text-gray-400 max-w-[160px] truncate">
                   {user.email}
@@ -110,6 +148,14 @@ export function Navbar() {
           {user ? (
             <>
               <Link href="/dashboard" className="block py-2 text-sm font-medium text-gray-600">Dashboard</Link>
+              <Link href="/dashboard/inbox" className="flex items-center gap-2 py-2 text-sm font-medium text-gray-600">
+                Inbox
+                {pendingCount > 0 && (
+                  <span className="inline-flex items-center justify-center h-5 min-w-5 px-1 rounded-full bg-red-500 text-xs font-bold text-white">
+                    {pendingCount > 9 ? "9+" : pendingCount}
+                  </span>
+                )}
+              </Link>
               <p className="py-2 text-sm text-gray-400 truncate">{user.email}</p>
               <button onClick={handleLogout} className="block w-full text-left py-2 text-sm font-medium text-red-500">
                 Log Out
