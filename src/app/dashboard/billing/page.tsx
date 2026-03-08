@@ -21,12 +21,12 @@ export default function BillingPage() {
       </div>
 
       {/* Upgrade Card */}
-      <div className="rounded-xl border-2 border-royal-blue/20 bg-royal-blue/5 p-6 mb-6">
+      <div className="rounded-xl border-2 border-hw-blue/20 bg-hw-blue/5 p-6 mb-6">
         <div className="flex items-start justify-between">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <h2 className="text-lg font-bold">Seller Plan</h2>
-              <span className="rounded-full bg-cta-yellow px-2.5 py-0.5 text-xs font-semibold text-black">
+              <span className="rounded-full bg-hw-yellow px-2.5 py-0.5 text-xs font-semibold text-black">
                 Recommended
               </span>
             </div>
@@ -51,7 +51,7 @@ export default function BillingPage() {
             </li>
           ))}
         </ul>
-        <button className="mt-6 w-full sm:w-auto rounded-lg bg-cta-yellow px-8 py-3 text-sm font-semibold text-black hover:bg-cta-yellow-hover transition-colors">
+        <button className="mt-6 w-full sm:w-auto rounded-lg bg-hw-yellow px-8 py-3 text-sm font-semibold text-black hover:bg-hw-yellow-hover transition-colors">
           Upgrade to Seller — $10/mo
         </button>
       </div>

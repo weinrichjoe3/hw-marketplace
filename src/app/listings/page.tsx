@@ -121,7 +121,7 @@ export default async function ListingsPage({
                     )}
                     {listing.series && (
                       <div className="absolute top-3 left-3">
-                        <span className="rounded-full bg-royal-blue/90 px-3 py-0.5 text-xs font-medium text-white">
+                        <span className="rounded-full bg-hw-red/90 px-3 py-0.5 text-xs font-medium text-white">
                           {listing.series}
                         </span>
                       </div>
@@ -137,7 +137,7 @@ export default async function ListingsPage({
                 </Link>
                 <div className="p-4">
                   <Link href={`/listings/${listing.id}`}>
-                    <h3 className="font-semibold text-base group-hover:text-royal-blue transition-colors line-clamp-1">
+                    <h3 className="font-semibold text-base group-hover:text-hw-red transition-colors line-clamp-1">
                       {listing.title}
                     </h3>
                   </Link>
@@ -147,7 +147,7 @@ export default async function ListingsPage({
                   </div>
                   <Link
                     href={`/sellers/${listing.seller_id}`}
-                    className="text-xs text-gray-400 hover:text-royal-blue transition-colors mt-1 inline-block"
+                    className="text-xs text-gray-400 hover:text-hw-blue transition-colors mt-1 inline-block"
                   >
                     by {seller}
                   </Link>

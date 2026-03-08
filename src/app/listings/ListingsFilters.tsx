@@ -88,7 +88,7 @@ export function ListingsFilters({
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           onBlur={() => updateParams("search", search)}
-          className="w-full rounded-lg border border-gray-200 py-3 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-royal-blue/30 focus:border-royal-blue"
+          className="w-full rounded-lg border border-gray-200 py-3 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-hw-blue/30 focus:border-hw-blue"
         />
       </form>
 
@@ -96,7 +96,7 @@ export function ListingsFilters({
       <select
         value={currentSeries}
         onChange={(e) => updateParams("series", e.target.value)}
-        className="rounded-lg border border-gray-200 px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-royal-blue/30 focus:border-royal-blue"
+        className="rounded-lg border border-gray-200 px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-hw-blue/30 focus:border-hw-blue"
       >
         <option value="">All Series</option>
         {SERIES_OPTIONS.map((s) => (
@@ -110,7 +110,7 @@ export function ListingsFilters({
       <select
         value={currentCondition}
         onChange={(e) => updateParams("condition", e.target.value)}
-        className="rounded-lg border border-gray-200 px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-royal-blue/30 focus:border-royal-blue"
+        className="rounded-lg border border-gray-200 px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-hw-blue/30 focus:border-hw-blue"
       >
         <option value="">All Conditions</option>
         {CONDITION_OPTIONS.map((c) => (
@@ -124,7 +124,7 @@ export function ListingsFilters({
       <select
         value={currentSort}
         onChange={(e) => updateParams("sort", e.target.value)}
-        className="rounded-lg border border-gray-200 px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-royal-blue/30 focus:border-royal-blue"
+        className="rounded-lg border border-gray-200 px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-hw-blue/30 focus:border-hw-blue"
       >
         {SORT_OPTIONS.map((s) => (
           <option key={s.value} value={s.value}>

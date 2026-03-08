@@ -106,13 +106,13 @@ export function CommentSection({ listingId }: { listingId: string }) {
             onChange={(e) => setContent(e.target.value)}
             placeholder="Write a comment..."
             rows={3}
-            className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-royal-blue/30 focus:border-royal-blue"
+            className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-hw-blue/30 focus:border-hw-blue"
           />
           <div className="flex justify-end mt-2">
             <button
               type="submit"
               disabled={loading || !content.trim()}
-              className="rounded-lg bg-royal-blue px-5 py-2 text-sm font-semibold text-white hover:bg-royal-blue/90 transition-colors disabled:opacity-50"
+              className="rounded-lg bg-hw-blue px-5 py-2 text-sm font-semibold text-white hover:bg-hw-blue/90 transition-colors disabled:opacity-50"
             >
               {loading ? "Posting..." : "Post Comment"}
             </button>
@@ -120,7 +120,7 @@ export function CommentSection({ listingId }: { listingId: string }) {
         </form>
       ) : (
         <div className="mb-6 rounded-lg bg-gray-50 border border-gray-100 px-4 py-3 text-sm text-gray-500">
-          <a href="/login" className="text-royal-blue hover:underline font-medium">
+          <a href="/login" className="text-hw-blue hover:underline font-medium">
             Log in
           </a>{" "}
           to post a comment.
@@ -133,7 +133,7 @@ export function CommentSection({ listingId }: { listingId: string }) {
           {comments.map((c) => (
             <div key={c.id} className="rounded-lg border border-gray-100 p-4">
               <div className="flex items-center gap-2 mb-2">
-                <div className="w-7 h-7 rounded-full bg-royal-blue/10 flex items-center justify-center text-royal-blue text-xs font-bold">
+                <div className="w-7 h-7 rounded-full bg-hw-blue/10 flex items-center justify-center text-hw-blue text-xs font-bold">
                   {c.display_name.charAt(0).toUpperCase()}
                 </div>
                 <span className="text-sm font-semibold">

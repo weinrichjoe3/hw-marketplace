@@ -1,11 +1,11 @@
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16">
-      <h1 className="text-4xl font-bold mb-6">About HW Marketplace</h1>
+      <h1 className="text-4xl font-bold mb-6">About HW Swap and Shop</h1>
 
       <div className="prose prose-gray max-w-none space-y-6 text-gray-600 leading-relaxed">
         <p>
-          HW Marketplace was built by collectors, for collectors. We saw a gap in the
+          HW Swap and Shop was built by collectors, for collectors. We saw a gap in the
           market for a dedicated, trustworthy platform where Hot Wheels enthusiasts could
           buy, sell, and trade with confidence.
         </p>
@@ -52,7 +52,7 @@ export default function AboutPage() {
         <p>
           Have questions, feedback, or just want to talk cars? We&apos;d love to hear from you.
           Reach out anytime at{" "}
-          <span className="text-royal-blue font-medium">hello@hwmarketplace.com</span>.
+          <span className="text-hw-blue font-medium">hello@hwswapandshop.com</span>.
         </p>
       </div>
     </div>

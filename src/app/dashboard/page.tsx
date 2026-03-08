@@ -13,7 +13,7 @@ export default function DashboardPage() {
       <h1 className="text-2xl font-bold mb-1">Welcome</h1>
       <p className="text-sm text-gray-500 mb-8">
         Free Account &middot;{" "}
-        <Link href="/dashboard/billing" className="text-royal-blue hover:underline">
+        <Link href="/dashboard/billing" className="text-hw-blue hover:underline">
           Upgrade to Seller
         </Link>
       </p>
@@ -41,7 +41,7 @@ export default function DashboardPage() {
         </p>
         <Link
           href="/dashboard/billing"
-          className="inline-block rounded-lg bg-cta-yellow px-6 py-2.5 text-sm font-semibold text-black hover:bg-cta-yellow-hover transition-colors"
+          className="inline-block rounded-lg bg-hw-yellow px-6 py-2.5 text-sm font-semibold text-black hover:bg-hw-yellow-hover transition-colors"
         >
           Upgrade to Seller — $10/mo
         </Link>

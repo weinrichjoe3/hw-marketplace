@@ -31,7 +31,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 href={item.href}
                 className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                   active
-                    ? "bg-royal-blue text-white"
+                    ? "bg-hw-red text-white"
                     : "text-gray-600 hover:bg-gray-100"
                 }`}
               >
@@ -54,7 +54,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               key={item.href}
               href={item.href}
               className={`flex-1 flex flex-col items-center gap-1 py-3 text-xs font-medium ${
-                active ? "text-royal-blue" : "text-gray-400"
+                active ? "text-hw-red" : "text-gray-400"
               }`}
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

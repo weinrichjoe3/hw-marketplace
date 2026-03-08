@@ -34,14 +34,14 @@ export default function HowItWorksPage() {
       <div className="text-center mb-16">
         <h1 className="text-4xl font-bold mb-4">How It Works</h1>
         <p className="text-gray-500 max-w-xl mx-auto">
-          Whether you&apos;re buying or selling, HW Marketplace makes it simple and secure.
+          Whether you&apos;re buying or selling, HW Swap and Shop makes it simple and secure.
         </p>
       </div>
 
       {/* Buyers Section */}
       <div className="mb-20">
         <div className="flex items-center gap-3 mb-8">
-          <span className="rounded-full bg-sky-blue/20 px-4 py-1 text-sm font-semibold text-royal-blue">
+          <span className="rounded-full bg-hw-blue/20 px-4 py-1 text-sm font-semibold text-hw-blue">
             Free
           </span>
           <h2 className="text-2xl font-bold">For Buyers</h2>
@@ -53,7 +53,7 @@ export default function HowItWorksPage() {
             { step: "3", title: "Complete Your Purchase", desc: "Pay securely through the platform. Your payment is held until you confirm receipt." },
           ].map((s) => (
             <div key={s.step} className="rounded-xl border border-card-border p-6">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-sky-blue/20 text-royal-blue font-bold text-sm mb-4">
+              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-hw-blue/20 text-hw-blue font-bold text-sm mb-4">
                 {s.step}
               </div>
               <h3 className="font-semibold mb-2">{s.title}</h3>
@@ -66,7 +66,7 @@ export default function HowItWorksPage() {
       {/* Sellers Section */}
       <div className="mb-20">
         <div className="flex items-center gap-3 mb-8">
-          <span className="rounded-full bg-cta-yellow/30 px-4 py-1 text-sm font-semibold text-yellow-700">
+          <span className="rounded-full bg-hw-yellow/30 px-4 py-1 text-sm font-semibold text-yellow-700">
             $10/mo
           </span>
           <h2 className="text-2xl font-bold">For Sellers</h2>
@@ -78,7 +78,7 @@ export default function HowItWorksPage() {
             { step: "3", title: "Get Paid", desc: "Receive payments directly to your account. Funds are released once the buyer confirms." },
           ].map((s) => (
             <div key={s.step} className="rounded-xl border border-card-border p-6">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-cta-yellow/20 text-yellow-700 font-bold text-sm mb-4">
+              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-hw-yellow/20 text-yellow-700 font-bold text-sm mb-4">
                 {s.step}
               </div>
               <h3 className="font-semibold mb-2">{s.title}</h3>
@@ -122,7 +122,7 @@ export default function HowItWorksPage() {
       <div className="text-center mt-20">
         <Link
           href="/signup"
-          className="inline-block rounded-lg bg-cta-yellow px-8 py-3.5 text-base font-semibold text-black hover:bg-cta-yellow-hover transition-colors"
+          className="inline-block rounded-lg bg-hw-yellow px-8 py-3.5 text-base font-semibold text-black hover:bg-hw-yellow-hover transition-colors"
         >
           Get Started Free
         </Link>

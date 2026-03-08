@@ -65,11 +65,11 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-dark-bg text-white">
+      <section className="bg-gradient-to-br from-dark-bg via-dark-bg to-hw-red/20 text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center">
           <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
-            The Premium{" "}
-            <span className="bg-gradient-to-r from-sky-blue to-royal-blue bg-clip-text text-transparent">
+            The Ultimate{" "}
+            <span className="bg-gradient-to-r from-hw-red to-hw-yellow bg-clip-text text-transparent">
               Hot Wheels
             </span>{" "}
             Marketplace
@@ -80,7 +80,7 @@ export default async function HomePage() {
           </p>
           <Link
             href="/listings"
-            className="inline-block rounded-lg bg-cta-yellow px-8 py-3.5 text-base font-semibold text-black hover:bg-cta-yellow-hover transition-colors"
+            className="inline-block rounded-lg bg-hw-yellow px-8 py-3.5 text-base font-semibold text-black hover:bg-hw-yellow-hover transition-colors"
           >
             Browse Listings
           </Link>
@@ -93,7 +93,7 @@ export default async function HomePage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {STATS.map((s) => (
               <div key={s.label}>
-                <p className="text-2xl md:text-3xl font-bold text-royal-blue">{s.value}</p>
+                <p className="text-2xl md:text-3xl font-bold text-hw-red">{s.value}</p>
                 <p className="text-sm text-gray-500 mt-1">{s.label}</p>
               </div>
             ))}
@@ -109,7 +109,7 @@ export default async function HomePage() {
               <h2 className="text-3xl font-bold">Featured Listings</h2>
               <p className="text-gray-500 mt-2">Hand-picked collectibles trending this week</p>
             </div>
-            <Link href="/listings" className="text-sm font-medium text-royal-blue hover:underline hidden sm:block">
+            <Link href="/listings" className="text-sm font-medium text-hw-blue hover:underline hidden sm:block">
               View All &rarr;
             </Link>
           </div>
@@ -133,7 +133,7 @@ export default async function HomePage() {
                     )}
                     {listing.series && (
                       <div className="absolute top-3 left-3">
-                        <span className="rounded-full bg-royal-blue/90 px-3 py-0.5 text-xs font-medium text-white">
+                        <span className="rounded-full bg-hw-red/90 px-3 py-0.5 text-xs font-medium text-white">
                           {listing.series}
                         </span>
                       </div>
@@ -147,7 +147,7 @@ export default async function HomePage() {
                     )}
                   </div>
                   <div className="p-4">
-                    <h3 className="font-semibold text-base group-hover:text-royal-blue transition-colors line-clamp-1">
+                    <h3 className="font-semibold text-base group-hover:text-hw-red transition-colors line-clamp-1">
                       {listing.title}
                     </h3>
                     <div className="flex items-center justify-between mt-2">
@@ -167,12 +167,12 @@ export default async function HomePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
           <h2 className="text-3xl font-bold text-center mb-4">How It Works</h2>
           <p className="text-gray-500 text-center mb-12 max-w-xl mx-auto">
-            Getting started is simple. Join thousands of collectors buying and selling on HW Marketplace.
+            Getting started is simple. Join thousands of collectors buying and selling on HW Swap and Shop.
           </p>
           <div className="grid md:grid-cols-3 gap-8">
             {STEPS.map((s) => (
               <div key={s.step} className="bg-white rounded-xl p-8 border border-card-border">
-                <span className="text-3xl font-bold text-sky-blue">{s.step}</span>
+                <span className="text-3xl font-bold text-hw-red">{s.step}</span>
                 <h3 className="text-lg font-semibold mt-4 mb-2">{s.title}</h3>
                 <p className="text-sm text-gray-500 leading-relaxed">{s.description}</p>
               </div>
@@ -187,7 +187,7 @@ export default async function HomePage() {
           {Array.from({ length: 20 }).map((_, i) => (
             <span
               key={i}
-              className="absolute text-cta-yellow text-xs"
+              className="absolute text-hw-yellow text-xs"
               style={{
                 top: `${Math.floor((i * 37) % 100)}%`,
                 left: `${Math.floor((i * 53) % 100)}%`,
@@ -206,7 +206,7 @@ export default async function HomePage() {
           </p>
           <Link
             href="/signup"
-            className="inline-block rounded-lg bg-cta-yellow px-8 py-3.5 text-base font-semibold text-black hover:bg-cta-yellow-hover transition-colors"
+            className="inline-block rounded-lg bg-hw-yellow px-8 py-3.5 text-base font-semibold text-black hover:bg-hw-yellow-hover transition-colors"
           >
             Get Started Free
           </Link>

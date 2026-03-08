@@ -14,7 +14,7 @@ export default function SettingsPage() {
               <input
                 type="text"
                 placeholder="Your display name"
-                className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-royal-blue/30 focus:border-royal-blue"
+                className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-hw-blue/30 focus:border-hw-blue"
               />
             </div>
             <div>
@@ -22,7 +22,7 @@ export default function SettingsPage() {
               <input
                 type="email"
                 placeholder="you@example.com"
-                className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-royal-blue/30 focus:border-royal-blue"
+                className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-hw-blue/30 focus:border-hw-blue"
               />
             </div>
           </div>

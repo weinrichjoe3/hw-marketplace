@@ -22,7 +22,7 @@ export default function MyListingsPage() {
         </p>
         <Link
           href="/dashboard/billing"
-          className="inline-block rounded-lg bg-cta-yellow px-6 py-2.5 text-sm font-semibold text-black hover:bg-cta-yellow-hover transition-colors"
+          className="inline-block rounded-lg bg-hw-yellow px-6 py-2.5 text-sm font-semibold text-black hover:bg-hw-yellow-hover transition-colors"
         >
           Upgrade to Seller — $10/mo
         </Link>

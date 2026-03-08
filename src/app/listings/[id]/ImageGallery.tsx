@@ -52,7 +52,7 @@ export function ImageGallery({
                 onClick={() => setActiveIndex(i)}
                 className={`flex-shrink-0 w-20 h-16 rounded-lg overflow-hidden border-2 transition-colors ${
                   i === activeIndex
-                    ? "border-royal-blue"
+                    ? "border-hw-blue"
                     : "border-transparent hover:border-gray-300"
                 }`}
               >

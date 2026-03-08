@@ -10,9 +10,9 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "HW Marketplace — The Premium Hot Wheels Marketplace",
+  title: "HW Swap and Shop — Buy, Sell & Trade Hot Wheels",
   description:
-    "Buy, sell, and trade premium Hot Wheels collectibles with verified sellers.",
+    "Buy, sell, and trade collectible Hot Wheels with verified sellers on HW Swap and Shop.",
 };
 
 export default function RootLayout({

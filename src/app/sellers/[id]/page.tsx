@@ -65,7 +65,7 @@ export default async function SellerProfilePage({
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
       {/* Profile Header */}
       <div className="flex items-center gap-5 mb-8">
-        <div className="w-20 h-20 rounded-full bg-royal-blue/10 flex items-center justify-center text-royal-blue font-bold text-3xl">
+        <div className="w-20 h-20 rounded-full bg-hw-blue/10 flex items-center justify-center text-hw-blue font-bold text-3xl">
           {displayName.charAt(0).toUpperCase()}
         </div>
         <div>
@@ -118,7 +118,7 @@ export default async function SellerProfilePage({
                   )}
                   {listing.series && (
                     <div className="absolute top-3 left-3">
-                      <span className="rounded-full bg-royal-blue/90 px-3 py-0.5 text-xs font-medium text-white">
+                      <span className="rounded-full bg-hw-red/90 px-3 py-0.5 text-xs font-medium text-white">
                         {listing.series}
                       </span>
                     </div>
@@ -132,7 +132,7 @@ export default async function SellerProfilePage({
                   )}
                 </div>
                 <div className="p-4">
-                  <h3 className="font-semibold text-base group-hover:text-royal-blue transition-colors line-clamp-1">
+                  <h3 className="font-semibold text-base group-hover:text-hw-red transition-colors line-clamp-1">
                     {listing.title}
                   </h3>
                   <div className="flex items-center justify-between mt-2">

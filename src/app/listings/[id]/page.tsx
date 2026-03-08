@@ -80,7 +80,7 @@ export default async function ListingPage({
             {/* Badges */}
             <div className="flex flex-wrap gap-2 mb-6">
               {l.series && (
-                <span className="rounded-full bg-royal-blue/10 px-3.5 py-1 text-xs font-semibold text-royal-blue">
+                <span className="rounded-full bg-hw-blue/10 px-3.5 py-1 text-xs font-semibold text-hw-blue">
                   {l.series}
                 </span>
               )}
@@ -103,11 +103,11 @@ export default async function ListingPage({
 
             {/* Seller info bar */}
             <Link href={`/sellers/${l.seller_id}`} className="flex items-center gap-3 mb-6 group">
-              <div className="w-10 h-10 rounded-full bg-royal-blue/10 flex items-center justify-center text-royal-blue font-bold text-sm">
+              <div className="w-10 h-10 rounded-full bg-hw-blue/10 flex items-center justify-center text-hw-blue font-bold text-sm">
                 {sellerName.charAt(0).toUpperCase()}
               </div>
               <div>
-                <p className="text-sm font-semibold group-hover:text-royal-blue transition-colors">{sellerName}</p>
+                <p className="text-sm font-semibold group-hover:text-hw-red transition-colors">{sellerName}</p>
                 <p className="text-xs text-gray-500">Member since {memberSince}</p>
               </div>
             </Link>
@@ -162,7 +162,7 @@ export default async function ListingPage({
             <p className="text-xs text-gray-500">Price</p>
             <p className="text-xl font-bold">${l.price}</p>
           </div>
-          <button className="flex-1 rounded-lg bg-sky-blue px-4 py-3 text-sm font-semibold text-white hover:bg-sky-blue/90 transition-colors">
+          <button className="flex-1 rounded-lg bg-hw-blue px-4 py-3 text-sm font-semibold text-white hover:bg-hw-blue/90 transition-colors">
             Make an Offer
           </button>
         </div>

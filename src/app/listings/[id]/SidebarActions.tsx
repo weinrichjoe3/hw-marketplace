@@ -165,7 +165,7 @@ export function SidebarActions({
           {!isSeller && (
             <button
               onClick={openOfferModal}
-              className="w-full rounded-lg bg-sky-blue px-4 py-3 text-sm font-semibold text-white hover:bg-sky-blue/90 transition-colors mb-3"
+              className="w-full rounded-lg bg-hw-blue px-4 py-3 text-sm font-semibold text-white hover:bg-hw-blue/90 transition-colors mb-3"
             >
               Make an Offer
             </button>
@@ -185,11 +185,11 @@ export function SidebarActions({
         <div className="rounded-xl border border-card-border p-5">
           <p className="text-xs text-gray-500 mb-2">Seller</p>
           <Link href={`/sellers/${sellerId}`} className="flex items-center gap-3 group">
-            <div className="w-9 h-9 rounded-full bg-royal-blue/10 flex items-center justify-center text-royal-blue font-bold text-sm">
+            <div className="w-9 h-9 rounded-full bg-hw-blue/10 flex items-center justify-center text-hw-blue font-bold text-sm">
               {sellerName.charAt(0).toUpperCase()}
             </div>
             <div>
-              <p className="text-sm font-semibold group-hover:text-royal-blue transition-colors">{sellerName}</p>
+              <p className="text-sm font-semibold group-hover:text-hw-red transition-colors">{sellerName}</p>
               <p className="text-xs text-gray-500">Member since {memberSince}</p>
             </div>
           </Link>
@@ -247,7 +247,7 @@ export function SidebarActions({
                   value={offerAmount}
                   onChange={(e) => setOfferAmount(e.target.value)}
                   placeholder="0.00"
-                  className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-royal-blue/30 focus:border-royal-blue"
+                  className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-hw-blue/30 focus:border-hw-blue"
                   required
                 />
                 <label className="block text-sm font-medium mb-1">Message (optional)</label>
@@ -256,13 +256,13 @@ export function SidebarActions({
                   onChange={(e) => setOfferMessage(e.target.value)}
                   placeholder="Add a note to the seller..."
                   rows={3}
-                  className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm resize-none mb-4 focus:outline-none focus:ring-2 focus:ring-royal-blue/30 focus:border-royal-blue"
+                  className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm resize-none mb-4 focus:outline-none focus:ring-2 focus:ring-hw-blue/30 focus:border-hw-blue"
                 />
                 {offerError && <p className="text-sm text-red-600 mb-3">{offerError}</p>}
                 <button
                   type="submit"
                   disabled={offerLoading}
-                  className="w-full rounded-lg bg-cta-yellow px-4 py-3 text-sm font-semibold text-black hover:bg-cta-yellow-hover transition-colors disabled:opacity-50"
+                  className="w-full rounded-lg bg-hw-yellow px-4 py-3 text-sm font-semibold text-black hover:bg-hw-yellow-hover transition-colors disabled:opacity-50"
                 >
                   {offerLoading ? "Sending..." : "Send Offer"}
                 </button>
@@ -304,7 +304,7 @@ export function SidebarActions({
                     <p className="text-sm text-gray-500 mb-3">You need at least one active listing to propose a trade.</p>
                     <Link
                       href="/dashboard/listings"
-                      className="text-sm font-medium text-royal-blue hover:underline"
+                      className="text-sm font-medium text-hw-blue hover:underline"
                     >
                       Create a listing &rarr;
                     </Link>
@@ -321,7 +321,7 @@ export function SidebarActions({
                             type="button"
                             onClick={() => setSelectedTradeListingId(ul.id)}
                             className={`rounded-xl border-2 overflow-hidden text-left transition-colors ${
-                              selected ? "border-royal-blue" : "border-gray-200 hover:border-gray-300"
+                              selected ? "border-hw-blue" : "border-gray-200 hover:border-gray-300"
                             }`}
                           >
                             <div className="aspect-[4/3] bg-gray-100 relative">
@@ -335,7 +335,7 @@ export function SidebarActions({
                                 </div>
                               )}
                               {selected && (
-                                <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-royal-blue flex items-center justify-center">
+                                <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-hw-blue flex items-center justify-center">
                                   <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                   </svg>
@@ -357,13 +357,13 @@ export function SidebarActions({
                       onChange={(e) => setTradeMessage(e.target.value)}
                       placeholder="Add a note to the seller..."
                       rows={3}
-                      className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm resize-none mb-4 focus:outline-none focus:ring-2 focus:ring-royal-blue/30 focus:border-royal-blue"
+                      className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm resize-none mb-4 focus:outline-none focus:ring-2 focus:ring-hw-blue/30 focus:border-hw-blue"
                     />
                     {tradeError && <p className="text-sm text-red-600 mb-3">{tradeError}</p>}
                     <button
                       type="submit"
                       disabled={tradeLoading || !selectedTradeListingId}
-                      className="w-full rounded-lg bg-cta-yellow px-4 py-3 text-sm font-semibold text-black hover:bg-cta-yellow-hover transition-colors disabled:opacity-50"
+                      className="w-full rounded-lg bg-hw-yellow px-4 py-3 text-sm font-semibold text-black hover:bg-hw-yellow-hover transition-colors disabled:opacity-50"
                     >
                       {tradeLoading ? "Sending..." : "Propose Trade"}
                     </button>

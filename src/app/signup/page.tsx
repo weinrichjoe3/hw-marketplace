@@ -43,7 +43,7 @@ export default function SignUpPage() {
         <div className="rounded-2xl border border-card-border bg-white p-8 shadow-sm">
           <h1 className="text-2xl font-bold text-center mb-1">Create your account</h1>
           <p className="text-sm text-gray-500 text-center mb-8">
-            Join the premier Hot Wheels marketplace
+            Join HW Swap and Shop today
           </p>
 
           {error && (
@@ -64,7 +64,7 @@ export default function SignUpPage() {
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
                 required
-                className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-royal-blue/30 focus:border-royal-blue"
+                className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-hw-blue/30 focus:border-hw-blue"
               />
             </div>
             <div>
@@ -78,7 +78,7 @@ export default function SignUpPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-royal-blue/30 focus:border-royal-blue"
+                className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-hw-blue/30 focus:border-hw-blue"
               />
             </div>
             <div>
@@ -93,13 +93,13 @@ export default function SignUpPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
-                className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-royal-blue/30 focus:border-royal-blue"
+                className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-hw-blue/30 focus:border-hw-blue"
               />
             </div>
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-lg bg-royal-blue py-2.5 text-sm font-semibold text-white hover:bg-royal-blue/90 transition-colors disabled:opacity-50"
+              className="w-full rounded-lg bg-hw-blue py-2.5 text-sm font-semibold text-white hover:bg-hw-blue/90 transition-colors disabled:opacity-50"
             >
               {loading ? "Creating account..." : "Create Account"}
             </button>
@@ -107,7 +107,7 @@ export default function SignUpPage() {
 
           <p className="mt-6 text-center text-sm text-gray-500">
             Already have an account?{" "}
-            <Link href="/login" className="font-medium text-royal-blue hover:underline">
+            <Link href="/login" className="font-medium text-hw-blue hover:underline">
               Log in
             </Link>
           </p>
