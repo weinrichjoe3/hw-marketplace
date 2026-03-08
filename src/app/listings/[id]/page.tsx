@@ -16,11 +16,7 @@ interface ListingDetail {
   open_to_trades: boolean;
   status: string;
   created_at: string;
-  user_id: string;
-  profiles: {
-    display_name: string | null;
-    created_at: string;
-  } | null;
+  seller_id: string;
 }
 
 export default async function ListingPage({
@@ -33,7 +29,7 @@ export default async function ListingPage({
 
   const { data: listing } = await supabase
     .from("listings")
-    .select("*, profiles(display_name, created_at)")
+    .select("*")
     .eq("id", id)
     .single();
 
@@ -41,13 +37,24 @@ export default async function ListingPage({
 
   const l = listing as unknown as ListingDetail;
   const images = l.images?.length ? l.images : [];
-  const sellerName = l.profiles?.display_name ?? "Anonymous";
-  const memberSince = l.profiles?.created_at
-    ? new Date(l.profiles.created_at).toLocaleDateString("en-US", {
+
+  // Fetch seller profile separately (no direct FK between listings and profiles)
+  let sellerName = "Anonymous";
+  let memberSince = "Unknown";
+  if (l.seller_id) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("display_name, created_at")
+      .eq("id", l.seller_id)
+      .single();
+    if (profile) {
+      sellerName = profile.display_name ?? "Anonymous";
+      memberSince = new Date(profile.created_at).toLocaleDateString("en-US", {
         month: "long",
         year: "numeric",
-      })
-    : "Unknown";
+      });
+    }
+  }
 
   const details = [
     { label: "Series", value: l.series },

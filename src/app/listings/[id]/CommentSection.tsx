@@ -7,9 +7,8 @@ interface Comment {
   id: string;
   content: string;
   created_at: string;
-  profiles: {
-    display_name: string | null;
-  } | null;
+  user_id: string;
+  display_name: string;
 }
 
 export function CommentSection({ listingId }: { listingId: string }) {
@@ -27,11 +26,32 @@ export function CommentSection({ listingId }: { listingId: string }) {
   async function loadComments() {
     const { data } = await supabase
       .from("comments")
-      .select("id, content, created_at, profiles(display_name)")
+      .select("id, content, created_at, user_id")
       .eq("listing_id", listingId)
       .order("created_at", { ascending: true });
 
-    if (data) setComments(data as unknown as Comment[]);
+    if (!data || data.length === 0) {
+      setComments([]);
+      return;
+    }
+
+    // Fetch display names for comment authors
+    const userIds = [...new Set(data.map((c) => c.user_id))];
+    const { data: profiles } = await supabase
+      .from("profiles")
+      .select("id, display_name")
+      .in("id", userIds);
+
+    const nameMap = new Map(
+      (profiles ?? []).map((p) => [p.id, p.display_name ?? "Anonymous"])
+    );
+
+    setComments(
+      data.map((c) => ({
+        ...c,
+        display_name: nameMap.get(c.user_id) ?? "Anonymous",
+      }))
+    );
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -114,10 +134,10 @@ export function CommentSection({ listingId }: { listingId: string }) {
             <div key={c.id} className="rounded-lg border border-gray-100 p-4">
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-7 h-7 rounded-full bg-royal-blue/10 flex items-center justify-center text-royal-blue text-xs font-bold">
-                  {(c.profiles?.display_name ?? "A").charAt(0).toUpperCase()}
+                  {c.display_name.charAt(0).toUpperCase()}
                 </div>
                 <span className="text-sm font-semibold">
-                  {c.profiles?.display_name ?? "Anonymous"}
+                  {c.display_name}
                 </span>
                 <span className="text-xs text-gray-400">{timeAgo(c.created_at)}</span>
               </div>

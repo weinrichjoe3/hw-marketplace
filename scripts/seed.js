@@ -146,11 +146,40 @@ function randomYear() {
 // ── Main ─────────────────────────────────────────────────────────────────────
 
 async function seed() {
-  console.log("Seeding 20 profiles...");
+  console.log("Seeding 20 auth users + profiles...");
 
-  // Create profiles directly (these are display-only profiles, not auth users)
+  // Create auth users first (profiles table has FK to auth.users)
+  // Skip any that already exist
+  const userIds = [];
+  for (const name of DISPLAY_NAMES) {
+    const email = `${name.toLowerCase()}@fakeseed.local`;
+    const { data, error } = await supabase.auth.admin.createUser({
+      email,
+      password: "SeedPassword123!",
+      email_confirm: true,
+      user_metadata: { display_name: name },
+    });
+    if (error && error.message.includes("already been registered")) {
+      // User exists — look up by email
+      const { data: listData } = await supabase.auth.admin.listUsers();
+      const existing = listData.users.find((u) => u.email === email);
+      if (existing) {
+        userIds.push(existing.id);
+        continue;
+      }
+    }
+    if (error && !error.message.includes("already been registered")) {
+      console.error(`Error creating user ${name}:`, error.message);
+      process.exit(1);
+    }
+    if (data?.user) userIds.push(data.user.id);
+  }
+
+  console.log(`✓ ${userIds.length} auth users ready`);
+
+  // Now create/update profiles for each user
   const profiles = DISPLAY_NAMES.map((name, i) => ({
-    id: crypto.randomUUID(),
+    id: userIds[i],
     display_name: name,
     is_seller: true,
     created_at: new Date(
@@ -178,7 +207,7 @@ async function seed() {
       const series = pick(SERIES);
       listings.push({
         id: crypto.randomUUID(),
-        user_id: profile.id,
+        seller_id: profile.id,
         title: `${model} — ${series}`,
         description: pick(DESCRIPTIONS),
         series: series,
