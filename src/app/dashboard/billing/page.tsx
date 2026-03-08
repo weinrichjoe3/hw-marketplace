@@ -1,6 +1,6 @@
 export default function BillingPage() {
   return (
-    <div className="p-6 md:p-10">
+    <div className="p-4 md:p-10">
       <h1 className="text-2xl font-bold mb-1">Billing</h1>
       <p className="text-sm text-gray-500 mb-8">Manage your subscription and payment method</p>
 

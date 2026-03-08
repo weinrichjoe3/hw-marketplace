@@ -9,7 +9,7 @@ const STATS = [
 
 export default function DashboardPage() {
   return (
-    <div className="p-6 md:p-10">
+    <div className="p-4 md:p-10">
       <h1 className="text-2xl font-bold mb-1">Welcome</h1>
       <p className="text-sm text-gray-500 mb-8">
         Free Account &middot;{" "}

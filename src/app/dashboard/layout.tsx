@@ -15,8 +15,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const pathname = usePathname();
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)]">
-      {/* Sidebar */}
+    <div className="flex flex-col md:flex-row min-h-[calc(100vh-4rem)]">
+      {/* Desktop Sidebar */}
       <aside className="hidden md:flex flex-col w-64 border-r border-gray-100 bg-gray-50/50 p-4">
         <div className="mb-6 px-3">
           <p className="text-sm font-semibold text-gray-900">Dashboard</p>
@@ -45,25 +45,29 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </nav>
       </aside>
 
-      {/* Mobile nav */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-100 flex">
-        {NAV_ITEMS.map((item) => {
-          const active = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex-1 flex flex-col items-center gap-1 py-3 text-xs font-medium ${
-                active ? "text-hw-red" : "text-gray-400"
-              }`}
-            >
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={item.icon} />
-              </svg>
-              {item.label}
-            </Link>
-          );
-        })}
+      {/* Mobile horizontal scrollable tab bar */}
+      <div className="md:hidden border-b border-gray-100 bg-white sticky top-[67px] z-30">
+        <div className="flex overflow-x-auto no-scrollbar">
+          {NAV_ITEMS.map((item) => {
+            const active = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex-shrink-0 flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors min-h-[44px] ${
+                  active
+                    ? "border-hw-red text-hw-red"
+                    : "border-transparent text-gray-500"
+                }`}
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={item.icon} />
+                </svg>
+                {item.label}
+              </Link>
+            );
+          })}
+        </div>
       </div>
 
       {/* Content */}

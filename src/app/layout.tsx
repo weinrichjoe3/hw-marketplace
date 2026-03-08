@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
@@ -15,6 +15,12 @@ export const metadata: Metadata = {
     "Buy, sell, and trade collectible Hot Wheels with verified sellers on HW Swap and Shop.",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -24,7 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${dmSans.className} antialiased bg-white text-black`}>
         <Navbar />
-        <main className="min-h-screen">{children}</main>
+        <main className="min-h-screen pb-16 md:pb-0">{children}</main>
         <Footer />
       </body>
     </html>

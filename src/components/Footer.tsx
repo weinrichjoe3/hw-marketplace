@@ -10,6 +10,7 @@ export function Footer() {
             <ul className="space-y-2 text-sm">
               <li><Link href="/listings" className="hover:text-hw-red transition-colors">Browse Listings</Link></li>
               <li><Link href="/how-it-works" className="hover:text-hw-red transition-colors">How It Works</Link></li>
+              <li><Link href="/sell" className="hover:text-hw-red transition-colors">Sell</Link></li>
               <li><Link href="/about" className="hover:text-hw-red transition-colors">About</Link></li>
             </ul>
           </div>

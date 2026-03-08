@@ -95,7 +95,7 @@ export default async function ListingsPage({
 
       {/* Listing Grid */}
       {listings.length > 0 ? (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 min-[375px]:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
           {listings.map((listing) => {
             const img = listing.images?.[0];
             const seller = sellerMap.get(listing.seller_id) ?? "Anonymous";
@@ -135,14 +135,14 @@ export default async function ListingsPage({
                     )}
                   </div>
                 </Link>
-                <div className="p-4">
+                <div className="p-3 md:p-4">
                   <Link href={`/listings/${listing.id}`}>
-                    <h3 className="font-semibold text-base group-hover:text-hw-red transition-colors line-clamp-1">
+                    <h3 className="font-semibold text-sm md:text-base group-hover:text-hw-red transition-colors line-clamp-1">
                       {listing.title}
                     </h3>
                   </Link>
-                  <div className="flex items-center justify-between mt-2">
-                    <p className="text-lg font-bold">${listing.price}</p>
+                  <div className="flex items-center justify-between mt-1.5 md:mt-2">
+                    <p className="text-base md:text-lg font-bold">${listing.price}</p>
                     <span className="text-xs text-gray-400">{timeAgo(listing.created_at)}</span>
                   </div>
                   <Link

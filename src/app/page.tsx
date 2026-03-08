@@ -66,21 +66,21 @@ export default async function HomePage() {
     <>
       {/* Hero */}
       <section className="bg-hw-blue text-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-32 text-center">
+          <h1 className="text-3xl md:text-6xl font-bold leading-tight mb-4 md:mb-6">
             The Ultimate{" "}
             <span className="bg-gradient-to-r from-hw-red to-hw-yellow bg-clip-text text-transparent">
               Hot Wheels
             </span>{" "}
             Marketplace
           </h1>
-          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+          <p className="text-base md:text-xl text-white/80 max-w-2xl mx-auto mb-8 md:mb-10">
             Buy, sell, and trade collectible Hot Wheels with verified sellers.
             The trusted destination for serious collectors.
           </p>
           <Link
             href="/listings"
-            className="inline-block rounded-lg bg-hw-yellow px-8 py-3.5 text-base font-semibold text-black hover:bg-hw-yellow-hover transition-colors"
+            className="inline-block w-full sm:w-auto rounded-lg bg-hw-yellow px-8 py-3.5 text-base font-semibold text-black hover:bg-hw-yellow-hover transition-colors min-h-[44px]"
           >
             Browse Listings
           </Link>
@@ -89,12 +89,12 @@ export default async function HomePage() {
 
       {/* Stats */}
       <section className="border-b border-gray-100">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 md:py-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center">
             {STATS.map((s) => (
               <div key={s.label}>
-                <p className="text-2xl md:text-3xl font-bold text-hw-red">{s.value}</p>
-                <p className="text-sm text-gray-500 mt-1">{s.label}</p>
+                <p className="text-xl md:text-3xl font-bold text-hw-red">{s.value}</p>
+                <p className="text-xs md:text-sm text-gray-500 mt-1">{s.label}</p>
               </div>
             ))}
           </div>
@@ -103,17 +103,17 @@ export default async function HomePage() {
 
       {/* Featured Listings */}
       <section className="bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
-          <div className="flex items-end justify-between mb-10">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+          <div className="flex items-end justify-between mb-8 md:mb-10">
             <div>
-              <h2 className="text-3xl font-bold">Featured Listings</h2>
-              <p className="text-gray-500 mt-2">Hand-picked collectibles trending this week</p>
+              <h2 className="text-2xl md:text-3xl font-bold">Featured Listings</h2>
+              <p className="text-gray-500 mt-1 md:mt-2 text-sm md:text-base">Hand-picked collectibles trending this week</p>
             </div>
             <Link href="/listings" className="text-sm font-medium text-hw-blue hover:underline hidden sm:block">
               View All &rarr;
             </Link>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {(showFromDb ? featured : FEATURED).map((listing) => {
               const img = "images" in listing ? (listing as FeaturedListing).images?.[0] : null;
               const color = "color" in listing ? (listing as (typeof FEATURED)[number]).color : "bg-gray-100";
@@ -159,21 +159,26 @@ export default async function HomePage() {
               );
             })}
           </div>
+          <div className="sm:hidden mt-6 text-center">
+            <Link href="/listings" className="text-sm font-medium text-hw-blue hover:underline">
+              View All Listings &rarr;
+            </Link>
+          </div>
         </div>
       </section>
 
       {/* How It Works */}
       <section className="bg-gray-50">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
-          <h2 className="text-3xl font-bold text-center mb-4">How It Works</h2>
-          <p className="text-gray-500 text-center mb-12 max-w-xl mx-auto">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-3 md:mb-4">How It Works</h2>
+          <p className="text-gray-500 text-center mb-8 md:mb-12 max-w-xl mx-auto text-sm md:text-base">
             Getting started is simple. Join thousands of collectors buying and selling on HW Swap and Shop.
           </p>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-4 md:gap-8">
             {STEPS.map((s) => (
-              <div key={s.step} className="bg-white rounded-xl p-8 border border-card-border">
-                <span className="text-3xl font-bold text-hw-red">{s.step}</span>
-                <h3 className="text-lg font-semibold mt-4 mb-2">{s.title}</h3>
+              <div key={s.step} className="bg-white rounded-xl p-6 md:p-8 border border-card-border">
+                <span className="text-2xl md:text-3xl font-bold text-hw-red">{s.step}</span>
+                <h3 className="text-base md:text-lg font-semibold mt-3 md:mt-4 mb-2">{s.title}</h3>
                 <p className="text-sm text-gray-500 leading-relaxed">{s.description}</p>
               </div>
             ))}
@@ -197,16 +202,16 @@ export default async function HomePage() {
             </span>
           ))}
         </div>
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-20 text-center">
+          <h2 className="text-2xl md:text-4xl font-bold mb-4">
             Start Collecting Today
           </h2>
-          <p className="text-gray-400 max-w-lg mx-auto mb-8">
+          <p className="text-gray-400 max-w-lg mx-auto mb-8 text-sm md:text-base">
             Join our growing community of Hot Wheels enthusiasts. Create a free account and start browsing in seconds.
           </p>
           <Link
             href="/signup"
-            className="inline-block rounded-lg bg-hw-yellow px-8 py-3.5 text-base font-semibold text-black hover:bg-hw-yellow-hover transition-colors"
+            className="inline-block w-full sm:w-auto rounded-lg bg-hw-yellow px-8 py-3.5 text-base font-semibold text-black hover:bg-hw-yellow-hover transition-colors min-h-[44px]"
           >
             Get Started Free
           </Link>
