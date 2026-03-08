@@ -1,4 +1,15 @@
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+
+interface FeaturedListing {
+  id: string;
+  title: string;
+  series: string | null;
+  condition: string | null;
+  price: number;
+  images: string[] | null;
+  created_at: string;
+}
 
 const STATS = [
   { label: "Active Listings", value: "12,400+" },
@@ -34,7 +45,23 @@ const FEATURED = [
   { id: "6", title: "Mercedes-Benz 300 SL — Team Transport", series: "Team Transport", condition: "Mint / Carded", price: 95, color: "bg-orange-100" },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  let featured: FeaturedListing[] = [];
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from("listings")
+      .select("id, title, series, condition, price, images, created_at")
+      .eq("status", "active")
+      .order("created_at", { ascending: false })
+      .limit(6);
+    featured = (data as FeaturedListing[]) ?? [];
+  } catch {
+    // DB may not be set up yet — use static fallback
+  }
+
+  const showFromDb = featured.length > 0;
+
   return (
     <>
       {/* Hero */}
@@ -87,37 +114,50 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {FEATURED.map((listing) => (
-              <div
-                key={listing.id}
-                className="group rounded-xl border border-card-border overflow-hidden hover:shadow-lg transition-shadow"
-              >
-                <div className={`aspect-[4/3] ${listing.color} relative overflow-hidden flex items-center justify-center`}>
-                  <svg className="w-16 h-16 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
-                  </svg>
-                  <div className="absolute top-3 left-3">
-                    <span className="rounded-full bg-royal-blue/90 px-3 py-0.5 text-xs font-medium text-white">
-                      {listing.series}
-                    </span>
+            {(showFromDb ? featured : FEATURED).map((listing) => {
+              const img = "images" in listing ? (listing as FeaturedListing).images?.[0] : null;
+              const color = "color" in listing ? (listing as (typeof FEATURED)[number]).color : "bg-gray-100";
+              return (
+                <Link
+                  key={listing.id}
+                  href={showFromDb ? `/listings/${listing.id}` : "/listings"}
+                  className="group rounded-xl border border-card-border overflow-hidden hover:shadow-lg transition-shadow"
+                >
+                  <div className={`aspect-[4/3] ${img ? "bg-gray-100" : color} relative overflow-hidden flex items-center justify-center`}>
+                    {img ? (
+                      <img src={img} alt={listing.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                    ) : (
+                      <svg className="w-16 h-16 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
+                      </svg>
+                    )}
+                    {listing.series && (
+                      <div className="absolute top-3 left-3">
+                        <span className="rounded-full bg-royal-blue/90 px-3 py-0.5 text-xs font-medium text-white">
+                          {listing.series}
+                        </span>
+                      </div>
+                    )}
+                    {listing.condition && (
+                      <div className="absolute top-3 right-3">
+                        <span className="rounded-full bg-white/90 px-3 py-0.5 text-xs font-medium text-gray-700">
+                          {listing.condition}
+                        </span>
+                      </div>
+                    )}
                   </div>
-                  <div className="absolute top-3 right-3">
-                    <span className="rounded-full bg-white/90 px-3 py-0.5 text-xs font-medium text-gray-700">
-                      {listing.condition}
-                    </span>
+                  <div className="p-4">
+                    <h3 className="font-semibold text-base group-hover:text-royal-blue transition-colors line-clamp-1">
+                      {listing.title}
+                    </h3>
+                    <div className="flex items-center justify-between mt-2">
+                      <p className="text-lg font-bold">${listing.price}</p>
+                      <span className="text-xs text-gray-400">2d ago</span>
+                    </div>
                   </div>
-                </div>
-                <div className="p-4">
-                  <h3 className="font-semibold text-base group-hover:text-royal-blue transition-colors line-clamp-1">
-                    {listing.title}
-                  </h3>
-                  <div className="flex items-center justify-between mt-2">
-                    <p className="text-lg font-bold">${listing.price}</p>
-                    <span className="text-xs text-gray-400">2d ago</span>
-                  </div>
-                </div>
-              </div>
-            ))}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
